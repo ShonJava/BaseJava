@@ -4,9 +4,9 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class ArrayStorage {
-
-    Resume[] storage = new Resume[10000];
+public class ArrayStorage implements Storage{
+    private static final int storageSize = 10000;
+    Resume[] storage = new Resume[storageSize];
     int size = 0;
 
     public void clear() {
@@ -26,7 +26,7 @@ public class ArrayStorage {
         if (getIndex(r.getUuid()) == -1) {
             storage[size] = r;
             size++;
-        } else if (getIndex(r.getUuid()) >= size) {
+        } else if (getIndex(r.getUuid()) >= storageSize) {
             System.out.println("Resume[] overflow");
         } else {
             System.out.println(r.getUuid() + " already");
