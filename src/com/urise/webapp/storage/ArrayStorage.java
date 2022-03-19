@@ -5,8 +5,8 @@ import com.urise.webapp.model.Resume;
 import java.util.Arrays;
 
 public class ArrayStorage implements Storage{
-    private static final int storageSize = 10000;
-    Resume[] storage = new Resume[storageSize];
+    private static final int storage_limit = 10000;
+    private Resume[] storage = new Resume[storage_limit];
     int size = 0;
 
     public void clear() {
@@ -15,7 +15,8 @@ public class ArrayStorage implements Storage{
     }
 
     public void update(Resume r) {
-        if (getIndex(r.getUuid()) == -1) {
+        int index = getIndex(r.getUuid());
+        if (index == -1) {
             System.out.println("not find resume " + r.getUuid());
         } else {
             storage[getIndex(r.getUuid())] = r;
@@ -23,10 +24,11 @@ public class ArrayStorage implements Storage{
     }
 
     public void save(Resume r) {
-        if (getIndex(r.getUuid()) == -1) {
+        int index = getIndex(r.getUuid());
+        if (index == -1) {
             storage[size] = r;
             size++;
-        } else if (getIndex(r.getUuid()) >= storageSize) {
+        } else if (getIndex(r.getUuid()) >= storage_limit) {
             System.out.println("Resume[] overflow");
         } else {
             System.out.println(r.getUuid() + " already");
@@ -34,7 +36,8 @@ public class ArrayStorage implements Storage{
     }
 
     public Resume get(String uuid) {
-        if (getIndex(uuid) == -1) {
+        int index = getIndex(uuid);
+        if (index == -1) {
             System.out.println("Error, resume not find");
             return null;
         }
@@ -42,10 +45,11 @@ public class ArrayStorage implements Storage{
     }
 
     public void delete(String uuid) {
-        if (getIndex(uuid) == -1) {
+        int index = getIndex(uuid);
+        if (index == -1) {
                 System.out.println("Error, not find resume");
             } else {
-                storage[getIndex(uuid)] = storage[size - 1];
+                storage[index] = storage[size - 1];
                 storage[size - 1] = null;
                 size--;
             }
